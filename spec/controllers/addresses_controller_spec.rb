@@ -9,14 +9,14 @@ RSpec.describe AddressesController, type: :controller do
   end
 
   describe "addressess#create action" do
-  it "should successfully create a new address in the database" do
-    post :create, params: { address: { street: 'Golomb', city: 'Kfar Saba', country: 'Israel', zipcode: '66677' } }
-    #expect(response).to redirect_to root_path
+    it "should successfully create a new address in the database" do
+      post :create, params: { address: { street: 'Golomb', city: 'Kfar Saba', country: 'Israel', zipcode: '66677' } }
+      expect(response).to redirect_to root_path
 
-    address = Address.last
-    expect(address.street).to eq("Golomb")
-    expect(address.city).to eq("Kfar Saba")
-    expect(address.country).to eq("Israel")
+      address = Address.last
+      expect(address.street).to eq("Golomb")
+      expect(address.city).to eq("Kfar Saba")
+      expect(address.country).to eq("Israel")
+    end
   end
-end
 end

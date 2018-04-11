@@ -5,7 +5,10 @@ class AddressesController < ApplicationController
   end
 
   def create
-    @address = Address.create(address_params)
+    @address = Address.new #can be avoided?
+    @address.geocode_address(address_params)
+    #@address = Address.create(address_params)
+    redirect_to root_path
   end
 
   private
