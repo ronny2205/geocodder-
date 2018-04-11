@@ -1,4 +1,4 @@
-<h1>Type an address</h1>
+<h1>Enter an address</h1>
 
 <%= simple_form_for @address do |f| %>
   <%= f.input :street %>
@@ -7,4 +7,19 @@
   <%= f.input :country, as: :string %>
   <%= f.input :zipcode %>
   <%= f.submit "Post!" %>
+<% end %>
+
+<% if @no_address_msg %>
+  <%= @no_address_msg %>
+<% end %>
+
+
+<h4>All requested addresses:</h4>
+
+<% @addresses.each do |address| %>
+  <%= address.full_address %>
+  <%= address.latitude %>
+  <%= address.longitude %>
+
+  </br >
 <% end %>

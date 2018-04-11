@@ -71,3 +71,8 @@ end
 
 # Use simple form
 gem 'simple_form'
+
+# Use the Geocoder gem to integrate with google api
+#gem 'geocoder'
+
+gem 'httparty'
