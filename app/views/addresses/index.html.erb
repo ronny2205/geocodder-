@@ -1,1 +1,10 @@
-hello
+<h1>Type an address</h1>
+
+<%= simple_form_for @address do |f| %>
+  <%= f.input :street %>
+  <%= f.input :city %>
+  <%= f.input :state %>
+  
+  <%= f.input :zipcode %>
+  <%= f.submit "Post!" %>
+<% end %>
