@@ -3,16 +3,17 @@
 <%= simple_form_for @address do |f| %>
   <%= f.input :street %>
   <%= f.input :city %>
-  <%= f.input :state %>
+  <%= f.input :state, collection: Address::US_STATES%>
   <%= f.input :country, as: :string %>
   <%= f.input :zipcode %>
-  <%= f.submit "Post!" %>
+  <%= f.submit "Geocode the address!" %>
 <% end %>
 
 <% if @no_address_msg %>
   <%= @no_address_msg %>
 <% end %>
 
+<%= Address::US_STATES %>
 
 <h4>All requested addresses:</h4>
 
