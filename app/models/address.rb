@@ -1,7 +1,6 @@
 class Address < ApplicationRecord
-  #geocoded_by :full_address
-  #after_validation :geocode
   validates :street, :city, :country, presence: true
+  validates :zipcode, :numericality => true, :allow_nil => true
 
   US_STATES =
     [
@@ -59,32 +58,15 @@ class Address < ApplicationRecord
       ['Wyoming', 'WY']
     ]
 
-  # def geocode_address(address_params)
-  #   puts 'here::'
-  #   puts address_params[:street]
-  #   full_address = address_params[:street] + ' ' + address_params[:city] + ' ' + address_params[:state] +
-  #     ' ' + address_params[:country] + ' ' + address_params[:zipcode]
-  #   puts full_address
-  # end
-
-  # def full_address(address_params)
-  #   address_params[:street] + ' ' + address_params[:city] + ' ' + address_params[:state] +
-  #     ' ' + address_params[:country] + ' ' + address_params[:zipcode]
-  # end
-
-  def full_address
-    address = self.street + ' ' + self.city + ' ' + self.state
-
-    if !self.country.nil?
-      address += ' '
-      address += self.country
-    end
+  # Generating a full address
+  def generate_full_address
+    address = ''
+    address += self.street if !self.street.nil?
+    address += ' ' + self.city if !self.city.nil?
+    address += ' ' + self.state if !self.state.nil?
+    address += ' ' + self.country if !self.country.nil?
+    address += ' ' + self.zipcode.to_s if !self.zipcode.nil?
       
-    if !self.zipcode.nil?
-      address += ' '
-      address += self.zipcode.to_s
-    end
-
     address
   end
 
