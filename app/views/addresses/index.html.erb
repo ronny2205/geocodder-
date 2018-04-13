@@ -1,26 +1,72 @@
-<h1>Enter an address</h1>
 
-<%= simple_form_for @address do |f| %>
-  <%= f.input :street %>
-  <%= f.input :city %>
-  <%= f.input :state, collection: Address::US_STATES%>
-  <%= f.input :country, as: :string %>
-  <%= f.input :zipcode %>
-  <%= f.submit "Geocode the address!" %>
-<% end %>
+
+
 
 <% if @no_address_msg %>
   <%= @no_address_msg %>
 <% end %>
 
-<%= Address::US_STATES %>
 
-<h4>All requested addresses:</h4>
 
-<% @addresses.each do |address| %>
-  <%= address.full_address %>
-  <%= address.latitude %>
-  <%= address.longitude %>
 
-  </br >
-<% end %>
+
+
+
+
+<div class="container">
+  <br />
+  <div class="page-header">
+    <h4>Enter an address</h4>
+  </div>
+  <br />
+  <div class="row">
+    
+    <div class="col-xs-12 col-md-8">
+      <%= simple_form_for @address, html: { class: 'form-horizontal' } do |f| %>
+      <div class="form-group">
+        <%= f.input :street %>
+      </div>
+      <div class="form-group">
+        <%= f.input :city %>
+      </div>
+      <div class="form-group">  
+        <%= f.input :state, collection: Address::US_STATES, prompt: "Select a US State" %>
+      </div>
+      <div class="form-group">
+        <%= f.input :country, as: :string %>
+      </div>
+      <div class="form-group">
+        <%= f.input :zipcode %>
+      </div>
+      <%= f.submit "Geocode the address!", class: 'btn btn-primary pull-right' %>
+      <% end %>
+    </div>  
+  </div>
+       
+  
+  <br />
+  <div class="row"> 
+    <h4>All requested addresses:</h4>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th class="text-center">Address</th>
+        <th class="text-center">Latitude</th> 
+        <th class="text-center">Longitude</th>
+      </tr>
+      <% @addresses.each do |address| %>
+        <tr>
+          <td class="text-center">
+           <%= address.full_address %>
+          </td>
+          <td class="text-center">
+            <%= address.latitude %>
+          </td> 
+          <td class="text-center">
+             <%= address.longitude %>
+          </td>
+        </tr> 
+      <% end %>  
+    </table>
+  </div>
+</div>
+

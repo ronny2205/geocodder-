@@ -1,6 +1,6 @@
 class AddressesController < ApplicationController
   def index
-    @addresses = Address.all
+    @addresses = Address.all.order('created_at desc')
     @address = Address.new
 
     #response = HTTParty.get('http://api.stackexchange.com/2.2/questions?site=stackoverflow')
@@ -21,16 +21,16 @@ class AddressesController < ApplicationController
     full_address = @address.full_address #(address_params)
     #response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8')
   
-  #response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + full_address + '&key=AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8')
+  response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + full_address + '&key=AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8')
   
     #response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=49 Kuku St, Kfar Saba Israel&key=AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8')
 
 
-    results =[] #response.parsed_response['results']
+    results = response.parsed_response['results']
   
   if !results.empty?
-    @address.latitude = 1 #results[0].dig('geometry', 'location', 'lat')
-    @address.longitude = -2 #results[0].dig('geometry', 'location', 'lng')
+    @address.latitude = results[0].dig('geometry', 'location', 'lat')
+    @address.longitude = results[0].dig('geometry', 'location', 'lng')
     @address.save
 
     if !@address.valid?
