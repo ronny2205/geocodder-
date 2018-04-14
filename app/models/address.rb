@@ -1,6 +1,12 @@
 class Address < ApplicationRecord
+  include ActiveModel::Validations
+
   validates :street, :city, :country, presence: true
-  validates :zipcode, :numericality => true, :allow_nil => true
+  #validates :street, presence: true
+  #validates :zipcode, :numericality => true#, :allow_blank => true
+
+  validates_numericality_of :zipcode, :only_integer => true, :allow_nil => true, 
+    :message => "can only be whole number."
 
   US_STATES =
     [
