@@ -1,27 +1,11 @@
 
-
-
-
-<% if @no_address_msg %>
-  <%= @no_address_msg %>
-<% end %>
-
-
-
-
-
-
-
-
 <div class="container">
-  <br />
-  <div class="page-header">
-    <h4>Enter an address</h4>
-  </div>
-  <br />
+  <h1>Geocoding App</h1>
+
   <div class="row">
-    
-    <div class="col-xs-12 col-md-8">
+    <div class="col-xs-12 col-md-8 offset-md-2">
+    <div class="booyah-box">  
+      <h4>Enter an address</h4>
       <%= simple_form_for @address, html: { class: 'form-horizontal' } do |f| %>
       <div class="form-group">
         <%= f.input :street %>
@@ -42,38 +26,34 @@
       <%= f.submit "Geocode the address!", class: 'btn btn-primary pull-right' %>
       <% end %>
     </div>  
-  </div>
- 
-  <% if @message_to_display %>
-    <%= @message_to_display %>
-  <% end %>  
+    </div>  
+  </div> 
   
   <% if @addresses %>
-  <br />
-  <div class="row"> 
-    <h4>All requested addresses:</h4>
-    <table class="table table-striped table-bordered">
-      <tr>
-        <th class="text-center">Address</th>
-        <th class="text-center">Latitude</th> 
-        <th class="text-center">Longitude</th>
-      </tr>
-      <% @addresses.each do |address| %>
+    <br />
+    <div class="row"> 
+      <h4>All requested addresses:</h4>
+      <table class="table table-striped table-bordered">
         <tr>
-          <td class="text-center">
-           <%= address.generate_full_address %>
-          </td>
-          <td class="text-center">
-            <%= address.latitude %>
-          </td> 
-          <td class="text-center">
-             <%= address.longitude %>
-          </td>
-        </tr> 
-      <% end %>  
-    </table>
-  </div>
+          <th class="text-center table-header">Address</th>
+          <th class="text-center table-header">Latitude</th> 
+          <th class="text-center table-header">Longitude</th>
+        </tr>
+        <% @addresses.each do |address| %>
+          <tr>
+            <td class="text-center">
+             <%= address.generate_full_address %>
+            </td>
+            <td class="text-center">
+              <%= address.latitude %>
+            </td> 
+            <td class="text-center">
+              <%= address.longitude %>
+            </td>
+          </tr> 
+        <% end %>  
+      </table>
+    </div>
   <% end %>  
-
 </div>
 

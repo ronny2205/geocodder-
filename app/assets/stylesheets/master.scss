@@ -1,8 +1,46 @@
 @import "bootstrap";
 
+.booyah-box {
+  -moz-box-shadow: 1px 1px 2px 0 #d0d0d0;
+  -webkit-box-shadow: 1px 1px 2px 0 #d0d0d0;
+  box-shadow: 1px 1px 2px 0 #d0d0d0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-color: #e4e4e4 #bebebd #bebebd #e4e4e4;
+  margin-top:10px;
+  margin-bottom:15px;
+  padding:20px;
+}
+
+h1 {
+  margin:30px;
+  padding:0;
+  font-family: 'sinkin_sans200_x_light';
+  color: blue;
+  text-align: center;
+}
+
+h4 {
+  margin:10px;
+  padding:0;
+  font-family: 'sinkin_sans200_x_light';
+  color: green;
+}
+
+hr {
+  height: 30;
+}
+
+body {
+  font-family: 'sinkin_sans400_regular';
+}
+
+.table-header {
+  color: blue;
+}
+
 .help-block {
   color: #ff3333;
   background-color: #FFEEEE;
   border-radius: 3px;
-  padding: 2px 8px 2px 8px;
 }

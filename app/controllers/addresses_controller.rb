@@ -48,9 +48,12 @@ class AddressesController < ApplicationController
       else
         @address.latitude = results[0].dig('geometry', 'location', 'lat')
         @address.longitude = results[0].dig('geometry', 'location', 'lng')
+       #ActiveRecord::Base::sanitize_sql_hash_for_assignment({ latitude: results[0].dig('geometry', 'location', 'lat'), longitude: results[0].dig('geometry', 'location', 'lng')}, @address)
 
-        # Save only if this address does not exist in the database yet
-        @existing_address = Address.where(:latitude => @address.latitude).where(:longitude=>@address.longitude).first
+
+        # Save only if this address does not exist in the database yet    
+        @existing_address = Address.where(["latitude = ? AND longitude = ?", @address.latitude, @address.longitude]).first
+
         if @existing_address.nil?
           @address.save
           if !@address.valid?
