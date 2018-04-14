@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a small RoR application that allows a user to input an address, and geocodes it using the Google geocoding API (http://bit.ly/1QYAQv1). 
 
-Things you may want to cover:
+The successfully geocoded locations are stored in the database, along with the longitude and the latitude.
+All the database entries are listed at the bottom of the page.
 
-* Ruby version
+The app is deployed at: https://gecodder-ronny-almog.herokuapp.com/
 
-* System dependencies
+To run locally:
+After clonning the repo, get a google maps API key (https://developers.google.com/maps/documentation/geocoding/get-api-key) and store it in an ENV varable called GOOGLE_MAPS_API_KEY. 
 
-* Configuration
+To run the unit tests: run 'rspec' 
 
-* Database creation
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
