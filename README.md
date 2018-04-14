@@ -13,3 +13,4 @@ After clonning the repo, get a google maps API key (https://developers.google.co
 To run the unit tests: run 'rspec' 
 
 
+For the sake of simplicity, the address input form is US friendly - the user you can select a US state from a dropdowm. If you ignore the state and fill all the other fields, you can geocode international addresses. 
