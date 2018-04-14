@@ -2,41 +2,12 @@ class AddressesController < ApplicationController
   HTTP_OK_STATUS = 200
 
   def index
-    #@addresses = Address.all.order('created_at desc')
-
-    
-
-    #@addresses = Address.order('created_at DESC').page(params[:page], :per_page => 10)
     @address = Address.new
-
     @addresses = Address.paginate(:page => params[:page], :per_page => 10).order('created_at desc')
-
-#response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8')
-  
-#puts response.body #, response.code, response.message, response.headers.inspect
-
-
   end
 
   def create
-    @address = Address.new(address_params) #can be avoided?
-
-    # if @address.valid?
-    #   redirect_to root_path
-    # else
-    #   render :index, status: :unprocessable_entity
-
-    # end
-
-# p @address.errors.inspect
-#     if @address.errors.include?(:street)
-#       @street_err = 'Please enter'
-#     end
-
-    # if @address.invalid?
-    #   flash[:error] = 'Could not save. the data you entered is invalid.'
-    # end
-
+    @address = Address.new(address_params) 
     if @address.valid?
       full_address = @address.generate_full_address 
       response = call_google_maps_api(full_address)
@@ -47,7 +18,6 @@ class AddressesController < ApplicationController
       end
 
       results = response.parsed_response['results']
-  
       if results.empty?
         flash[:error] = 'Can not geocode this address. Please try again.'
         redirect_to root_path

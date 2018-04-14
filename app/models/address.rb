@@ -70,6 +70,4 @@ class Address < ApplicationRecord
       
     address
   end
-
-  #AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8
 end
