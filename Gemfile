@@ -77,3 +77,6 @@ gem 'httparty'
 
 # Use figaro for secure configuration
 gem 'figaro'
+
+# Use pagination
+gem 'will_paginate', '>= 3.1'

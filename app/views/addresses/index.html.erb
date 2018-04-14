@@ -53,7 +53,16 @@
           </tr> 
         <% end %>  
       </table>
+      <div class="apple_pagination">
+        <div class="page_info">
+         <%= page_entries_info @addresses %>
+        </div>
+        <%= will_paginate @addresses, :container => false %>
+      </div>
     </div>
   <% end %>  
 </div>
+
+
+
 
