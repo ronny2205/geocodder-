@@ -22,10 +22,9 @@ class AddressesController < ApplicationController
         flash[:error] = 'Can not geocode this address. Please try again.'
         redirect_to root_path
       else
+        # Getting the latitude and the longitude from the json response object
         @address.latitude = results[0].dig('geometry', 'location', 'lat')
         @address.longitude = results[0].dig('geometry', 'location', 'lng')
-       #ActiveRecord::Base::sanitize_sql_hash_for_assignment({ latitude: results[0].dig('geometry', 'location', 'lat'), longitude: results[0].dig('geometry', 'location', 'lng')}, @address)
-
 
         # Save only if this address does not exist in the database yet    
         @existing_address = Address.where(["latitude = ? AND longitude = ?", @address.latitude, @address.longitude]).first
