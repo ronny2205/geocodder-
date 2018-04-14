@@ -1,4 +1,6 @@
 class AddressesController < ApplicationController
+  HTTP_OK_STATUS = 200
+
   def index
     @addresses = Address.all.order('created_at desc')
     @address = Address.new
@@ -27,51 +29,48 @@ class AddressesController < ApplicationController
 
     full_address = @address.generate_full_address 
 
-    response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + full_address + '&key=AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8')
-  
+    response = call_google_maps_api(full_address)
+
+    if response.code != HTTP_OK_STATUS
+      flash[:error] = 'An error occured. Please try again later.'
+      redirect_to root_path
+    end
+
     #response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=49 Kuku St, Kfar Saba Israel&key=AIzaSyDNG0ihVr0FUxlzquiVvInxvPPTwRRdXa8')
 
 
     results = response.parsed_response['results']
   
-  if !results.empty?
-    @address.latitude = results[0].dig('geometry', 'location', 'lat')
-    @address.longitude = results[0].dig('geometry', 'location', 'lng')
-
-    # Save only if this address do not exist in the database yet
-    @existing_address = Address.where(:latitude => @address.latitude).where(:longitude=>@address.longitude).first
-
-    if @existing_address.nil?
-      @address.save
-
-      if !@address.valid?
-        render :index, status: :unprocessable_entity
-      end
-    end
-
-    #if @address.valid?
-      # success msg
-      flash[:success] = 'The address <strong>' + full_address + '</strong> was successfully geocoded. Latitude: <strong>' + @address.latitude.to_s + '</strong>. Longitude: <strong>' + @address.longitude.to_s + '</strong>.'
-
+    if results.empty?
+      flash[:error] = 'Can not geocode this address. Please try again.'
       redirect_to root_path
-      #redirect_to root_path(message_to_display: 'The address: ' + full_address + ' was successfully geocoded')
-      #(@thing, foo: params[:foo])
-    #end
-  else
-    # no_address_msg = 'Can not geocode this address. Please try again.'
-    # redirect_to root_path(message_to_display: no_address_msg)
-    flash[:error] = 'Can not geocode this address. Please try again.'
-    redirect_to root_path
+    else
+      @address.latitude = results[0].dig('geometry', 'location', 'lat')
+      @address.longitude = results[0].dig('geometry', 'location', 'lng')
 
-  end
+      # Save only if this address does not exist in the database yet
+      @existing_address = Address.where(:latitude => @address.latitude).where(:longitude=>@address.longitude).first
+      if @existing_address.nil?
+        @address.save
+        if !@address.valid?
+          render :index, status: :unprocessable_entity
+        end
+      end
 
-   #Address.create(address_params)
+      flash[:success] = 'The address <strong>' + full_address + '</strong> was successfully geocoded. Latitude: <strong>' + @address.latitude.to_s + '</strong>. Longitude: <strong>' + @address.longitude.to_s + '</strong>.'
+      redirect_to root_path
+    end
   end
 
   private
 
   def address_params
     params.require(:address).permit(:street, :city, :state, :country, :zipcode)
+  end
+
+  def call_google_maps_api(full_address)
+    initial_url = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+    HTTParty.get(initial_url + full_address + '&key=' + ENV['GOOGLE_MAPS_API_KEY'])
   end
 
 end

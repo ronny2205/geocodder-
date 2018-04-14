@@ -72,7 +72,8 @@ end
 # Use simple form
 gem 'simple_form'
 
-# Use the Geocoder gem to integrate with google api
-#gem 'geocoder'
-
+# Use httparty for http requests
 gem 'httparty'
+
+# Use figaro for secure configuration
+gem 'figaro'
